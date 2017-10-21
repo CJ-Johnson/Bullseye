@@ -1,7 +1,7 @@
 {
   "name": "@cj-johnson/bullseye",
   "version": "1.0.1",
-  "description": "",
+  "description": "Multi-target 2D rendering library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -22,5 +22,11 @@
   "homepage": "https://github.com/CJ-Johnson/Bullseye#readme",
   "devDependencies": {
     "typescript": "^2.5.3"
+  },
+  "dependencies": {
+    "@types/prop-types": "^15.5.2",
+    "@types/react": "^16.0.16",
+    "prop-types": "^15.6.0",
+    "react": "^16.0.0"
   }
 }
