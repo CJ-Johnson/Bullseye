@@ -23,4 +23,5 @@ typings/
 *.tgz
 .yarn-integrity
 .env
-dist/
+dist/*
+!dist/.gitkeep
