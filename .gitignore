@@ -25,3 +25,4 @@ typings/
 .env
 dist/*
 !dist/.gitkeep
+package-lock.json

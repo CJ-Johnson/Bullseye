@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "docs": "cd docs/ && react-scripts-ts start",
     "push": "npm run build && npm publish --access=public",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,13 +21,12 @@
     "url": "https://github.com/CJ-Johnson/Bullseye/issues"
   },
   "homepage": "https://github.com/CJ-Johnson/Bullseye#readme",
-  "devDependencies": {
-    "typescript": "^2.5.3"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.16",
     "prop-types": "^15.6.0",
-    "react": "^16.0.0"
+    "react": "^16.0.0",
+    "typescript": "^2.5.3"
   }
 }
