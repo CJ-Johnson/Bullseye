@@ -1,7 +1,9 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-import { RenderingTarget } from 'lib/types'
+import {
+  RenderingTarget,
+} from '../../../../main'
 
 export type Props = {
   target: RenderingTarget,
