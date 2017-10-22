@@ -9,8 +9,8 @@ import {
     RenderingTargetArguments,
 } from './types'
 
-export default Bullseye
 export {
+    Bullseye,
     Layer,
     Group,
     Path,
