@@ -6,7 +6,8 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "clean": "shx rm -rf _bundles/* lib/* lib-esm/* && shx touch _bundles/.gitkeep lib/.gitkeep lib-esm/.gitkeep",
-    "build": "npm run clean && tsc && tsc -m es6 --outDir lib-esm && webpack"
+    "build": "npm run clean && tsc && tsc -m es6 --outDir lib-esm && webpack",
+    "build:watch": "watchman src \"npm run build\""
   },
   "repository": {
     "type": "git",
