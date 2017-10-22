@@ -6,7 +6,7 @@ import {
 } from '../../../../main'
 
 export type Props = {
-  target: RenderingTarget,
+  target?: RenderingTarget,
 }
 
 export default class Layer extends React.Component<Props, {}> {
