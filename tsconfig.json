@@ -9,5 +9,11 @@
     "declaration": true,
     "jsx": "react",
     "strict": true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "lib",
+    "lib-esm",
+    "_bundles"
+  ]
 }
