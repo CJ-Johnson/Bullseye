@@ -1,26 +1,47 @@
 import * as React from 'react'
 
 import {
-  RenderingTarget,
-  RenderingTargetArguments,
+  RenderingTargetProps,
 } from '../../../main'
 
-const drawOnCanvas = (args: RenderingTargetArguments, canvas: HTMLCanvasElement): void => {
-  const context = canvas.getContext('2d')
-  if (!context) {
-    throw new Error('Unable to load 2d context from provided canvas element')
+const CONTEXT_2D = '2d'
+
+const rand = () => Math.floor(Math.random() * 255)
+const padding = 30
+
+export default class CanvasTarget extends React.Component<RenderingTargetProps, {}> {
+
+  ctx: CanvasRenderingContext2D | undefined
+
+  drawOnCanvas = (data: any): void => {
+    const { ctx } = this
+    console.log('Trying to draw on ', ctx)
+    if (ctx) {
+      ctx.fillStyle = `rgb(${rand()},${rand()},${rand()})`
+      ctx.fillRect(
+        padding,
+        padding,
+        this.props.width - (2 * padding),
+        this.props.height - (2 * padding),
+      )
+    }
   }
-  context.fillStyle = 'rgb(0,0,0)'
-  context.fillRect(10, 20, 255, 150)
+
+  saveCtx = (canvas: HTMLCanvasElement | null): void => {
+    if (canvas) {
+      const ctx = canvas.getContext(CONTEXT_2D)
+      if (ctx) {
+        this.ctx = ctx
+      }
+    }
+  }
+
+  render() {
+    const { width, height, subscribeToData } = this.props
+    subscribeToData(this.drawOnCanvas)
+    return (
+      <canvas ref={this.saveCtx} width={width} height={height} />
+    )
+  }
+
 }
-
-const CanvasTarget: RenderingTarget = (args: RenderingTargetArguments) => (
-  <canvas
-    ref={(canvas: HTMLCanvasElement): void => drawOnCanvas(args, canvas)}
-    width={args.width}
-    height={args.height}
-  >
-  </canvas>
-)
-
-export default CanvasTarget

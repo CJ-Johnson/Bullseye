@@ -1,7 +1,9 @@
-export type RenderingTargetArguments = {
+export type DataSubscriber = (data: any) => void
+
+export type RenderingTargetProps = {
     width: number,
     height: number,
-    data?: any,
+    subscribeToData: ((dataSubscriber: DataSubscriber) => void),
 }
 
-export type RenderingTarget = (args: RenderingTargetArguments) => React.ReactElement<any>
+export type RenderingTarget = new () => React.Component<RenderingTargetProps, {}>

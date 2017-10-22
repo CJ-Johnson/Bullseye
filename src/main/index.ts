@@ -6,7 +6,8 @@ import Rect from './components/primitive/Rect'
 import CanvasTarget from './targets/CanvasTarget'
 import {
     RenderingTarget,
-    RenderingTargetArguments,
+    RenderingTargetProps,
+    DataSubscriber,
 } from './types'
 
 export {
@@ -17,5 +18,6 @@ export {
     Rect,
     CanvasTarget,
     RenderingTarget,
-    RenderingTargetArguments,
+    RenderingTargetProps,
+    DataSubscriber,
 }
