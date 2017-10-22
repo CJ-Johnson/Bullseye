@@ -8,10 +8,6 @@
     "sourceMap": true,
     "declaration": true,
     "jsx": "react",
-    "strict": true,
-    // "baseUrl": "./src",
-    "paths": {
-      "@main/*": "./src/main/*"
-    }
+    "strict": true
   }
 }
