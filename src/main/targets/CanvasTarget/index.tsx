@@ -10,7 +10,8 @@ const CanvasTarget: RenderingTarget = (args: RenderingTargetArguments) => (
     ref={(...args: any[]) => console.log('Canvas is on the page!', {args})}
     width={args.width}
     height={args.height}
-  />
+  >
+  </canvas>
 )
 
 export default CanvasTarget

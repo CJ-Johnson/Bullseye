@@ -23,7 +23,9 @@ export default class Layer extends React.Component<Props, {}> {
 
   render() {
     const { width, height } = this.context
-    const target = this.props.target || this.context.target
+    const {
+      target = this.context.target,
+    } = this.props
     return (
       <div
         style={{
