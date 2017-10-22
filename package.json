@@ -27,6 +27,7 @@
   "dependencies": {
     "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.0",
+    "path": "^0.12.7",
     "prop-types": "^15.6.0",
     "react": "^16.0.0"
   }
