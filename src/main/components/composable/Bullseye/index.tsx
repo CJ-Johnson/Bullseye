@@ -56,6 +56,10 @@ export default class Bullseye extends React.Component<Props, {}> {
   }
 
   render() {
+    // Idea: Allow an implicit ONLY layer such that you can just pass regular groups and primitives
+    // directly into bullseye and have it be auto-wrapped in a layer. The catch here is, if you
+    // provide a single layer element, then ONLY layers are allowed at the top level. There can
+    // only be a single implicit layer
     const { children } = this.props
     if (!children) {
       throw new Error('At least one Layer must be provided to Bullseye')

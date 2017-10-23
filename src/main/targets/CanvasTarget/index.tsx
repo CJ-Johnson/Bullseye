@@ -14,17 +14,16 @@ export default class CanvasTarget extends React.Component<RenderingTargetProps, 
   ctx: CanvasRenderingContext2D | undefined
 
   drawOnCanvas = (data: any): void => {
-    const { ctx } = this
-    console.log('Trying to draw on ', ctx)
-    if (ctx) {
-      ctx.fillStyle = `rgb(${rand()},${rand()},${rand()})`
-      ctx.fillRect(
-        padding,
-        padding,
-        this.props.width - (2 * padding),
-        this.props.height - (2 * padding),
-      )
-    }
+    // const { ctx } = this
+    // if (ctx) {
+    //   ctx.fillStyle = `rgb(${rand()},${rand()},${rand()})`
+    //   ctx.fillRect(
+    //     padding,
+    //     padding,
+    //     this.props.width - (2 * padding),
+    //     this.props.height - (2 * padding),
+    //   )
+    // }
   }
 
   saveCtx = (canvas: HTMLCanvasElement | null): void => {

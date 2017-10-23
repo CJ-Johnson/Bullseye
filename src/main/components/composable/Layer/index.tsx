@@ -4,6 +4,8 @@ import * as PropTypes from 'prop-types'
 import {
   RenderingTarget,
   DataSubscriber,
+  Group,
+  Path,
 } from '../../../../main'
 
 export type Props = {
@@ -51,11 +53,12 @@ export default class Layer extends React.Component<Props, {}> {
   }
 
   onMouseMove = (event: React.MouseEvent<HTMLElement>): boolean => {
-    console.log('moved mouse :)))')
     // TODO: Traverse local layer tree, detect if event is to be handled and handle it
     this.notifySubscriberOfData(SOME_DATA)
     return false
   }
+
+  structureData: any
 
   render() {
     const { width, height, subscribeToEvents } = this.context
@@ -64,7 +67,16 @@ export default class Layer extends React.Component<Props, {}> {
       target = this.context.target,
     } = this.props
     const { subscribeToData } = this
-    // TODO: extract data from children
+    const implicitGroupForLayer = (
+      <Group children={this.props.children} />
+    )
+    this.structureData = extractStructure(implicitGroupForLayer)
+    console.log(this.structureData)
+    if (!(window as any).first) {
+      (window as any).first = this.structureData
+    } else if (!(window as any).second) {
+      (window as any).second = this.structureData
+    }
     return (
       <div
         style={{
@@ -81,4 +93,37 @@ export default class Layer extends React.Component<Props, {}> {
     )
   }
 
+}
+
+function extractStructure(element: JSX.Element): any {
+  /*
+  cases
+    Group
+      consume (and get back the temp div)
+      map over div.children against extractStructure
+      return { type: 'group', x, y, children }
+    Path
+      return { type: 'path', x, y, d }
+    React class
+      consume
+      recurse on result
+    React primitive
+      error
+  */
+  if (typeof element.type === 'string') {
+    throw new Error('React primitives are not valid in Bullseye')
+  }
+  if (element.type === Path) {
+    const reactData: any = element.type.call({}, element.props)
+    return { type: 'path', element, reactData }
+  }
+  if (element.type === Group) {
+    const reactData = element.type.call({}, element.props)
+    const children = reactData.mutableState.children.map(extractStructure)
+    return { type: 'group', element, children, reactData }
+  }
+  // TODO: tell difference between class that needs to be instantiated
+  // and a functional stateless component
+  const reactData = element.type.call({}, element.props)
+  return { type: 'ReactWrapperClass', element, reactData }
 }

@@ -7,19 +7,25 @@ export type Props = {
   children?: JSX.Element | JSX.Element[],
 }
 
+export type MutableState = {
+  x: number,
+  y: number,
+  children: JSX.Element[],
+}
+
+const returnSelf = (itm: any): any => itm
+
 export default class Group extends React.Component<Props, {}> {
 
-  private x: number
-  private y: number
+  mutableState: MutableState
 
-  render() {
-    this.x = this.props.x || 0
-    this.y = this.props.y || 0
-    return (
-      <div>
-        {this.props.children}
-      </div>
-    )
+  constructor(props: Props) {
+    super(props)
+    this.mutableState = {
+      x: props.x || 0,
+      y: props.y || 0,
+      children: React.Children.map(props.children, returnSelf),
+    }
   }
 
 }
