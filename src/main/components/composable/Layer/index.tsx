@@ -5,15 +5,13 @@ import {
   RenderingTarget,
   DataSubscriber,
   Group,
-  Path,
+  Rect,
 } from '../../../../main'
 
 export type Props = {
   target?: RenderingTarget,
   children?: JSX.Element | JSX.Element[],
 }
-
-const SOME_DATA = { key: 'data from above!!!!!' }
 
 export default class Layer extends React.Component<Props, {}> {
 
@@ -39,7 +37,11 @@ export default class Layer extends React.Component<Props, {}> {
   }
 
   componentDidMount() {
-    this.notifySubscriberOfData(SOME_DATA)
+    this.notifySubscriberOfData(this.structureData)
+  }
+
+  componentDidUpdate() {
+    this.notifySubscriberOfData(this.structureData)
   }
 
   private dataSubscriber: DataSubscriber = (data: any) => {}
@@ -54,7 +56,7 @@ export default class Layer extends React.Component<Props, {}> {
 
   onMouseMove = (event: React.MouseEvent<HTMLElement>): boolean => {
     // TODO: Traverse local layer tree, detect if event is to be handled and handle it
-    this.notifySubscriberOfData(SOME_DATA)
+    this.notifySubscriberOfData(this.structureData)
     return false
   }
 
@@ -71,12 +73,6 @@ export default class Layer extends React.Component<Props, {}> {
       <Group children={this.props.children} />
     )
     this.structureData = extractStructure(implicitGroupForLayer)
-    console.log(this.structureData)
-    if (!(window as any).first) {
-      (window as any).first = this.structureData
-    } else if (!(window as any).second) {
-      (window as any).second = this.structureData
-    }
     return (
       <div
         style={{
@@ -96,34 +92,31 @@ export default class Layer extends React.Component<Props, {}> {
 }
 
 function extractStructure(element: JSX.Element): any {
-  /*
-  cases
-    Group
-      consume (and get back the temp div)
-      map over div.children against extractStructure
-      return { type: 'group', x, y, children }
-    Path
-      return { type: 'path', x, y, d }
-    React class
-      consume
-      recurse on result
-    React primitive
-      error
-  */
+  // React primitive
   if (typeof element.type === 'string') {
     throw new Error('React primitives are not valid in Bullseye')
   }
-  if (element.type === Path) {
-    const reactData: any = element.type.call({}, element.props)
-    return { type: 'path', element, reactData }
+  // Bullseye Rect
+  if (element.type === Rect) {
+    const instance: any = element.type.call({}, element.props)
+    const { x, y, width, height } = instance.mutableState
+    return { type: 'Rect', x, y, width, height, meta: { element, instance } }
   }
+  // Bullseye Group
   if (element.type === Group) {
-    const reactData = element.type.call({}, element.props)
-    const children = reactData.mutableState.children.map(extractStructure)
-    return { type: 'group', element, children, reactData }
+    const instance = element.type.call({}, element.props)
+    const children = instance.mutableState.children.map(extractStructure)
+    const { x, y } = instance.mutableState
+    return { type: 'Group', children, x, y, meta: { element, instance } }
   }
-  // TODO: tell difference between class that needs to be instantiated
-  // and a functional stateless component
-  const reactData = element.type.call({}, element.props)
-  return { type: 'ReactWrapperClass', element, reactData }
+  // React Component class
+  if (element.type.prototype && element.type.prototype.isReactComponent) {
+    const Component = (element.type as { new(...args: any[]): any })
+    const instance = new Component(element.props)
+    const children = [extractStructure(instance.render.call(instance))]
+    return { type: 'Component', children, x: 0, y: 0, meta: { element, instance, isClass: true } }
+  }
+  // Functional stateless component (?)
+  const children = [extractStructure(element.type.call(null, element.props))]
+  return { type: 'Component', children, x: 0, y: 0, meta: { element, isClass: false } }
 }

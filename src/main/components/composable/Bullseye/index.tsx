@@ -80,7 +80,7 @@ export default class Bullseye extends React.Component<Props, {}> {
           height: this.props.height,
           position: 'relative',
         }}
-        onMouseMove={this.notifySubscribersOfEvent}
+        /* onMouseMove={this.notifySubscribersOfEvent} */
       >
         {children}
       </div>
