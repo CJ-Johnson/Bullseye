@@ -10,7 +10,7 @@ export type Props = {
   target: RenderingTarget,
   width: number,
   height: number,
-  children?: React.ReactElement<any> | React.ReactElement<any>[],
+  children?: JSX.Element | JSX.Element[],
 }
 
 type EventSubscriber = (event: React.MouseEvent<HTMLElement>) => boolean

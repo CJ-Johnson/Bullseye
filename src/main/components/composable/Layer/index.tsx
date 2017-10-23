@@ -8,6 +8,7 @@ import {
 
 export type Props = {
   target?: RenderingTarget,
+  children?: JSX.Element | JSX.Element[],
 }
 
 const SOME_DATA = { key: 'data from above!!!!!' }
@@ -63,6 +64,7 @@ export default class Layer extends React.Component<Props, {}> {
       target = this.context.target,
     } = this.props
     const { subscribeToData } = this
+    // TODO: extract data from children
     return (
       <div
         style={{
