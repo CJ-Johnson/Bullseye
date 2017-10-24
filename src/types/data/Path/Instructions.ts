@@ -1,9 +1,7 @@
 // https://www.dashingd3js.com/svg-paths-and-d3js
 
-import {
-  Command,
-  Coordinate,
-} from '../../../../main'
+import * as Command from './Command'
+import * as Coordinate from './Coordinate'
 
 export type MoveTo = [
   Command.M | Command.m,

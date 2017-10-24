@@ -1,9 +1,7 @@
 // https://www.dashingd3js.com/svg-paths-and-d3js
 
-import {
-  Command,
-  Instructions,
-} from '../../../../main'
+import * as Command from '../../../../types/data/Path/Command'
+import * as Instructions from '../../../../types/data/Path/Instructions'
 
 export function moveTo(
   x: number,

@@ -13,8 +13,6 @@ export type MutableState = {
   children: JSX.Element[],
 }
 
-const returnSelf = (itm: any): any => itm
-
 export default class Group extends React.Component<Props, {}> {
 
   mutableState: MutableState
@@ -24,7 +22,7 @@ export default class Group extends React.Component<Props, {}> {
     this.mutableState = {
       x: props.x || 0,
       y: props.y || 0,
-      children: React.Children.map(props.children, returnSelf),
+      children: React.Children.toArray(props.children) as JSX.Element[],
     }
   }
 

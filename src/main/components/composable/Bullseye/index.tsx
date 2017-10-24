@@ -1,10 +1,9 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-import {
-  Layer,
-  RenderingTarget,
-} from '../../../../main'
+import Layer from '../Layer'
+import { RenderingTarget } from '../../../../types/target'
+import { EventSubscriber } from '../../../../types/subscriptions'
 
 export type Props = {
   target: RenderingTarget,
@@ -13,9 +12,9 @@ export type Props = {
   children?: JSX.Element | JSX.Element[],
 }
 
-type EventSubscriber = (event: React.MouseEvent<HTMLElement>) => boolean
-
 export default class Bullseye extends React.Component<Props, {}> {
+
+  private eventSubscribers: EventSubscriber[] = []
 
   static propTypes = {
     target: PropTypes.func.isRequired,
@@ -38,8 +37,6 @@ export default class Bullseye extends React.Component<Props, {}> {
       subscribeToEvents: this.subscribeToEvents,
     }
   }
-
-  private eventSubscribers: EventSubscriber[] = []
 
   subscribeToEvents = (eventSubscriber: EventSubscriber): void => {
     this.eventSubscribers.push(eventSubscriber)

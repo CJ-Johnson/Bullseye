@@ -1,11 +1,8 @@
 import * as React from 'react'
 
-import {
-  RenderingTargetProps,
-} from '../../../main'
+import { RenderingTargetProps } from '../../../types/target/RenderingTarget'
 
 const CONTEXT_2D = '2d'
-
 const rand = () => Math.floor(Math.random() * 255)
 const randRGB = () => `rgb(${rand()},${rand()},${rand()})`
 

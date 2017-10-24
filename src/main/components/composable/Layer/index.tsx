@@ -1,12 +1,10 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-import {
-  RenderingTarget,
-  DataSubscriber,
-  Group,
-  Rect,
-} from '../../../../main'
+import { RenderingTarget } from '../../../../types/target'
+import { DataSubscriber } from '../../../../types/subscriptions'
+import Group from '../Group'
+import { Rect } from '../../primitive'
 
 export type Props = {
   target?: RenderingTarget,

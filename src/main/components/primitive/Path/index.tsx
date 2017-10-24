@@ -1,19 +1,17 @@
 import * as React from 'react'
 
-import {
-  Instructions,
-} from '../../../../main'
+import { PathInstruction } from '../../../../types/data/Path/Instructions'
 
 export type Props = {
   x?: number,
   y?: number,
-  d?: Instructions.PathInstruction[],
+  d?: PathInstruction[],
 }
 
 export type MutableState = {
   x: number,
   y: number,
-  d: Instructions.PathInstruction[],
+  d: PathInstruction[],
 }
 
 export default class Path extends React.Component<Props, {}> {
