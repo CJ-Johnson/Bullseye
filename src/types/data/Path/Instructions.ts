@@ -3,6 +3,19 @@
 import * as Command from './Command'
 import * as Coordinate from './Coordinate'
 
+export type PathInstruction = (
+  | MoveTo
+  | LineTo
+  | HorizontalLineTo
+  | VerticalLineTo
+  | CurveTo
+  | SmoothCurveTo
+  | QuadraticBezierCurve
+  | SmoothQuadraticBezierCurve
+  | EllipticalArc
+  | ClosePath
+)
+
 export type MoveTo = [
   Command.M | Command.m,
   Coordinate.x,
@@ -71,16 +84,3 @@ export type EllipticalArc = [
 export type ClosePath = [
   Command.Z | Command.z
 ]
-
-export type PathInstruction = (
-  | MoveTo
-  | LineTo
-  | HorizontalLineTo
-  | VerticalLineTo
-  | CurveTo
-  | SmoothCurveTo
-  | QuadraticBezierCurve
-  | SmoothQuadraticBezierCurve
-  | EllipticalArc
-  | ClosePath
-)

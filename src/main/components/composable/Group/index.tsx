@@ -7,23 +7,52 @@ export type Props = {
   children?: JSX.Element | JSX.Element[],
 }
 
-export type MutableState = {
-  x: number,
-  y: number,
-  children: JSX.Element[],
+export type Context = {
+  ___bullseyeGenerateId: (() => string),
+  ___bullseyeSaveData: ((type: string, id: string, data: any) => void),
 }
 
-export default class Group extends React.Component<Props, {}> {
+export type State = {
+  bullseye_id: string,
+  x: number,
+  y: number,
+  children?: JSX.Element | JSX.Element[],
+}
 
-  mutableState: MutableState
+const type = 'group'
 
-  constructor(props: Props) {
-    super(props)
-    this.mutableState = {
-      x: props.x || 0,
-      y: props.y || 0,
-      children: React.Children.toArray(props.children) as JSX.Element[],
-    }
+export default class Group extends React.Component<Props, State> {
+
+  static contextTypes = {
+    ___bullseyeGenerateId: PropTypes.func.isRequired,
+    ___bullseyeSaveData: PropTypes.func.isRequired,
+  }
+
+  context: Context
+  state: State
+
+  constructor(props: Props, context: Context) {
+    super(props, context)
+    const bullseye_id = context.___bullseyeGenerateId()
+    const x = props.x || 0
+    const y = props.y || 0
+    const children = React.Children.toArray(props.children) as JSX.Element[]
+    this.state = { bullseye_id, x, y, children }
+    context.___bullseyeSaveData(type, bullseye_id, this.state)
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    this.setState({...this.state, ...nextProps})
+    const { bullseye_id } = this.state
+    this.context.___bullseyeSaveData(type, bullseye_id, this.state)
+  }
+
+  render() {
+    return (
+      <div data-bullseye-type={type} data-bullseye-id={this.state.bullseye_id}>
+        {this.props.children}
+      </div>
+    )
   }
 
 }

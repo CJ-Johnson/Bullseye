@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 
 import { RenderingTargetProps } from '../../../types/target/RenderingTarget'
 
@@ -6,9 +7,27 @@ const CONTEXT_2D = '2d'
 const rand = () => Math.floor(Math.random() * 255)
 const randRGB = () => `rgb(${rand()},${rand()},${rand()})`
 
+export type Context = {
+  width: number,
+  height: number,
+  subscribeToRender: ((renderSubscriber: Function) => void),
+}
+
 export default class CanvasTarget extends React.Component<RenderingTargetProps, {}> {
 
+  static contextTypes = {
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    subscribeToRender: PropTypes.func.isRequired,
+  }
+
+  context: Context
   ctx: CanvasRenderingContext2D | undefined
+
+  constructor(props: RenderingTargetProps, context: Context) {
+    super(props, context)
+    context.subscribeToRender(this.drawOnCanvas)
+  }
 
   drawOnCanvas = (data: any): void => {
     const { ctx } = this
@@ -60,11 +79,7 @@ export default class CanvasTarget extends React.Component<RenderingTargetProps, 
   }
 
   render() {
-    const { width, height, subscribeToData } = this.props
-    subscribeToData(this.drawOnCanvas)
-    return (
-      <canvas ref={this.saveCtx} width={width} height={height} />
-    )
+    return <canvas ref={this.saveCtx} width={this.context.width} height={this.context.height} />
   }
 
 }
